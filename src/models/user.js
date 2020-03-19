@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-
-const user = mongoose.model('userdata',{
+const validator=require('validator')
+const userSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
@@ -10,7 +10,11 @@ const user = mongoose.model('userdata',{
         type:String,
         required:true,
         trim: true,
-        unique:true
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
     },
     password:{
         type:String,
@@ -26,12 +30,19 @@ const user = mongoose.model('userdata',{
         type:Number,
         required:true,
         trim: true,
-        unique:true
+        validate(value) {
+            if (value < 0) {
+                throw new Error('Number must be postive number')
+            }
+        }
     },
     DOB:{
         type:Date,
         required:true,
-        trim: true
+        trim: true,
     }
 })
-module.exports = user
+
+const User = mongoose.model('User', userSchema)
+
+module.exports = User

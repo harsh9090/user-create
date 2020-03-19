@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000
 
 app.use(express.json())
 
+
 app.get('/user/get',async (req,res)=>{
     
     try{
@@ -18,6 +19,9 @@ app.get('/user/get',async (req,res)=>{
     catch(e){
     res.send(e)
     }})
+
+
+
 app.post('/user/create',(req,res)=>{
    
 const User =new user(req.body)
@@ -31,6 +35,7 @@ User.save().then((result)=>{
 
 app.post('/contect/create',(req,res)=>{
 const Contect =new contect(req.body)
+
 Contect.save().then((result)=>{
     res.send(Contect) 
 }).catch((result)=>{
@@ -38,7 +43,20 @@ Contect.save().then((result)=>{
 })
 })
 
+app.delete('/user/delete',async (req,res)=>{
+    console.log(req.body.name)
+        const User =await user.findOneAndDelete({name : req.body.name})
+        console.log('end')
+        if(!User){
+            res.status(404).send()
+        }
+        if(User)
+            res.send("deleted")
+}
+)
+
+
 
 app.listen(port, ()=>{
-    console.log('server is up at '+port)
+    
 })
