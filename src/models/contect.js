@@ -10,6 +10,11 @@ const user = mongoose.model('contect',{
         type:String,
         require:true,
         trim:true
+    },
+    common: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 })
 module.exports = user

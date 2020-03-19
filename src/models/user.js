@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator=require('validator')
+const Contect=require('./contect')
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -10,6 +11,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         trim: true,
+        unique:true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error('Email is invalid')
@@ -30,6 +32,7 @@ const userSchema = new mongoose.Schema({
         type:Number,
         required:true,
         trim: true,
+        unique:true,
         validate(value) {
             if (value < 0) {
                 throw new Error('Number must be postive number')
@@ -41,8 +44,12 @@ const userSchema = new mongoose.Schema({
         required:true,
         trim: true,
     }
-})
 
-const User = mongoose.model('User', userSchema)
+})
+userSchema.pre('remove', async function (next) {
+    await Contect.deleteMany({ name1 : user.name })
+    next()
+})
+const User = mongoose.model('userdata', userSchema)
 
 module.exports = User
