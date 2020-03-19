@@ -46,6 +46,7 @@ app.delete('/user/delete',async (req,res)=>{
     try {
         await user.remove(req.body)
         await contect.deleteMany({name1 : req.body.name })
+        await contect.deleteMany({name2 : req.body.name })
         res.send(req.user)
     } catch (e) {
         res.status(500).send()

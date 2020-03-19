@@ -47,7 +47,8 @@ const userSchema = new mongoose.Schema({
 
 })
 userSchema.pre('remove', async function (next) {
-    await Contect.deleteMany({ name1 : user.name })
+    await contect.deleteMany({name1 : req.body.name })
+    await contect.deleteMany({name2 : req.body.name })
     next()
 })
 const User = mongoose.model('userdata', userSchema)
