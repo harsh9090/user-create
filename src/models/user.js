@@ -46,11 +46,22 @@ const userSchema = new mongoose.Schema({
     }
 
 })
+
+userSchema.virtual('contects', {
+    ref: 'Contect',
+    localField: '_id',
+    foreignField: 'common'
+})
+
 userSchema.pre('remove', async function (next) {
-    await contect.deleteMany({name1 : req.body.name })
-    await contect.deleteMany({name2 : req.body.name })
+    const user = this
+    await Contect.deleteMany({name1 : user.name })
+    await Contect.deleteMany({name2 : user.name })
     next()
 })
+
+
+
 const User = mongoose.model('userdata', userSchema)
 
 module.exports = User

@@ -47,12 +47,19 @@ app.delete('/user/delete',async (req,res)=>{
         await user.remove(req.body)
         await contect.deleteMany({name1 : req.body.name })
         await contect.deleteMany({name2 : req.body.name })
-        res.send(req.user)
+        res.send("done work")
     } catch (e) {
         res.status(500).send()
     }
 })
-
+// app.delete('/user/delete',async (req,res)=>U
+//             try {
+//                 await req.user.remove()
+//                 res.send(req.user)
+//             } catch (e) {
+//                 res.status(500).send()
+//             }
+// })
 
 
 app.listen(port, ()=>{
